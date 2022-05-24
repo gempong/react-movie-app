@@ -14,66 +14,66 @@ import HeroInternal from "../components/HeroInternal";
 import MovieCard from "../components/MovieCard";
 
 function Loading() {
-  return (
-    <Col span={6} className="skeleton-movie">
-      <Skeleton.Avatar active size="large" shape="square" />
-      <Skeleton active style={{ marginBottom: "50px" }}></Skeleton>
-    </Col>
-  );
+    return (
+        <Col span={6} className="skeleton-movie">
+            <Skeleton.Avatar active size="large" shape="square" />
+            <Skeleton active style={{ marginBottom: "50px" }}></Skeleton>
+        </Col>
+    );
 }
 
 function DetailMovie() {
-  const { data, loading, pagination } = useSelector(
-    (state) => state.movie.movies
-  );
-  const dispatch = useDispatch();
+    const { data, loading, pagination } = useSelector(
+        (state) => state.movie.movies
+    );
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchMovies(1));
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchMovies(1));
+    }, [dispatch]);
 
-  const LoadingMovie = [];
-  for (let i = 1; i <= 4; i++) {
-    LoadingMovie.push(Loading());
-  }
+    const LoadingMovie = [];
+    for (let i = 1; i <= 4; i++) {
+        LoadingMovie.push(Loading());
+    }
 
-  const paginationHandler = (current) => {
-    dispatch(fetchMovies(current));
-  }
+    const paginationHandler = (current) => {
+        dispatch(fetchMovies(current));
+    }
 
-  return (
-    <motion.div
-      initial="initial"
-      animate="in"
-      exit="out"
-      transition={{ delay: 0.7 }}
-      variants={pageVariants}
-    >
-      <HeroInternal pageTitle="All Movies" />
-      <div className="container mx-auto py-32">
-        <h2 className="text-4xl font-semibold leading-tight mb-14">
-          All Movies
-        </h2>
-        <Row gutter={50}>
-          {loading && LoadingMovie}
-          {!loading && data.length > 0 &&
-            data.map((i, index) => (
-              <Col className="mb-14" span={6} key={index}>
-                <MovieCard
-                  id={i._id}
-                  poster={i.poster}
-                  title={i.title}
-                  year={i.year}
-                  rating={i.rating}
-                  genres={i.genres}
-                />
-              </Col>
-            ))}
-        </Row>
-        {!loading && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
-      </div>
-    </motion.div>
-  );
+    return (
+        <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            transition={{ delay: 0.7 }}
+            variants={pageVariants}
+        >
+            <HeroInternal pageTitle="All Movies" />
+            <div className="container mx-auto py-32">
+                <h2 className="text-4xl font-semibold leading-tight mb-14">
+                    All Movies
+                </h2>
+                <Row gutter={50}>
+                    {loading && LoadingMovie}
+                    {!loading && data.length > 0 &&
+                        data.map((i, index) => (
+                            <Col className="mb-14" span={6} key={index}>
+                                <MovieCard
+                                    id={i._id}
+                                    poster={i.poster}
+                                    title={i.title}
+                                    year={i.year}
+                                    rating={i.rating}
+                                    genres={i.genres}
+                                />
+                            </Col>
+                        ))}
+                </Row>
+                {!loading && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
+            </div>
+        </motion.div>
+    );
 }
 
 export default DetailMovie;

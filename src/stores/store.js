@@ -3,12 +3,12 @@ import movieSlice from "./movie/movieSlice";
 import userSlice from "./user/userSlice";
 
 export const store = configureStore({
-  reducer: {
-    movie: movieSlice,
-    user: userSlice,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    reducer: {
+        movie: movieSlice,
+        user: userSlice,
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
