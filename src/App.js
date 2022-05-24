@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Movies from "./pages/Movies";
+import DetailMovie from "./pages/DetailMovie";
+import MovieByGenre from "./pages/MovieByGenre";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <AnimatePresence exitBeforeEnter>
+        <ScrollToTop>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/movies" component={Movies} />
+            <Route exact path="/movie/:id" component={DetailMovie} />
+            <Route exact path="/genre/:genre" component={MovieByGenre} />
+          </Switch>
+        </ScrollToTop>
+      </AnimatePresence>
+      <Footer />
+    </Router>
   );
 }
 
