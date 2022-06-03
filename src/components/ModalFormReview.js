@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Modal, Alert } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Modal, message } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
-import { auth, getUser } from "../stores/user/userSlice";
+import { fetchReviews, postReviews } from "../stores/reviews/reviewSlice";
 
-function Login(props) {
+function FormReviews(props) {
+    const { TextArea } = Input;
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const { token, loading, success, error, errorMessage } = useSelector(
+    const { token } = useSelector(
         (state) => state.user.auth
+    );
+    const { errorMessage, error, loading } = useSelector(
+        (state) => state.reviews.post
     );
     const dispatch = useDispatch();
     const [form] = Form.useForm();
@@ -22,31 +25,21 @@ function Login(props) {
     };
 
     const onFinish = async (values) => {
-        await dispatch(auth(values));
-        await dispatch(getUser(token));
+        const id = props.movie;
+        await dispatch(postReviews({ id, values, token }))
+        await dispatch(fetchReviews())
         setIsModalVisible(false);
-        console.log('closed')
+        if (!error) {
+            message.success('Your reviews posted successful');
+        } else {
+            message.error(errorMessage);
+        }
         form.resetFields()
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
-
-    useEffect(() => {
-        if(token){
-            dispatch(getUser(token));
-        }
-        setIsModalVisible(false);
-        console.log('closed')
-        form.resetFields()
-    }, [success]);
-
-    useEffect(() => {
-        if (error) {
-            console.log(error);
-        }
-    }, [error]);
 
     useEffect(() => {
         if (props.events) {
@@ -57,12 +50,11 @@ function Login(props) {
     return (
         <>
             <Modal
-                title="Log In to Your Account"
+                title="Leave a Comment"
                 visible={isModalVisible}
                 onCancel={handleCancel}
                 footer={null}
             >
-                {error && <Alert className="mb-6" message={errorMessage} type="error" />}
                 <Form
                     form={form}
                     name="register"
@@ -74,29 +66,35 @@ function Login(props) {
                     autoComplete="off"
                 >
                     <Form.Item
-                        name="email"
-                        rules={[{ required: true, message: "Please input your email!" }]}
+                        name="rating"
+                        rules={[{ required: true, message: "Please input your rating!" }]}
                     >
                         <Input
                             size="large"
-                            placeholder="Email Address"
-                            suffix={<MailOutlined />}
+                            placeholder="Rating"
                         />
                     </Form.Item>
                     <Form.Item
-                        name="password"
-                        rules={[{ required: true, message: "Please input your password!" }]}
+                        name="title"
+                        rules={[{ required: true, message: "Please input your review title!" }]}
                     >
-                        <Input.Password size="large" placeholder="Password" />
+                        <Input
+                            size="large"
+                            placeholder="Title"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="content"
+                        rules={[{ required: true, message: "Please input your review!" }]}
+                    >
+                        <TextArea
+                            rows={4}
+                            placeholder="Leave a Comment!"
+                        />
                     </Form.Item>
                     <Form.Item className="m-0">
-                        <Button
-                            loading={loading}
-                            type="primary"
-                            htmlType="submit"
-                            size="large"
-                        >
-                            Login
+                        <Button loading={loading} type="primary" htmlType="submit" size="large">
+                            Post Now
                         </Button>
                     </Form.Item>
                 </Form>
@@ -105,4 +103,4 @@ function Login(props) {
     );
 }
 
-export default Login;
+export default FormReviews;

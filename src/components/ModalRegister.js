@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Modal, Alert } from "antd";
+import { Form, Input, Button, Modal, Alert, message } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,8 @@ function Register(props) {
     };
 
     const onFinish = async (values) => {
-        dispatch(register(values))
+        await dispatch(register(values))
+        message.success('Your registration successful');
     };
 
     const onFinishFailed = (errorInfo) => {

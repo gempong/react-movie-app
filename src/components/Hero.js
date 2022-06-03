@@ -7,7 +7,7 @@ function Hero() {
     return (
         <Carousel autoplay effect="fade">
             <div>
-                <div className="pt-11 hero-content h-[75vh] bg-top-center bg-[url('https://maxblizz.com/wp-content/uploads/2022/02/strang-4k-1-scaled-e1645329727286.jpg')] bg-no-repeat bg-cover flex items-center">
+                <div className="pt-11 hero-content h-[100vh] bg-[url('https://maxblizz.com/wp-content/uploads/2022/02/strang-4k-1-scaled-e1645329727286.jpg')] bg-no-repeat bg-cover flex items-center">
                     <div className="container mx-auto">
                         <Row>
                             <Col span={12}>
@@ -32,7 +32,7 @@ function Hero() {
                 </div>
             </div>
             <div>
-                <div className="pt-11 hero-content h-[75vh] bg-top-center bg-[url('https://static.filmvandaag.nl/news/8897/moon-knight.jpg?ts=1646127338&width=1200&aspect_ratio=1:0.525')] bg-no-repeat bg-cover flex items-center">
+                <div className="pt-11 hero-content h-[100vh] bg-[url('https://static.filmvandaag.nl/news/8897/moon-knight.jpg?ts=1646127338&width=1200&aspect_ratio=1:0.525')] bg-no-repeat bg-cover flex items-center">
                     <div className="container mx-auto">
                         <Row>
                             <Col span={12}>
@@ -57,7 +57,7 @@ function Hero() {
                 </div>
             </div>
             <div>
-                <div className="pt-11 hero-content h-[75vh] bg-top-center bg-[url('https://www.entupantalla.com/wp-content/uploads/2022/04/JWDominion.jpg')] bg-no-repeat bg-cover flex items-center">
+                <div className="pt-11 hero-content h-[100vh] bg-[url('https://www.entupantalla.com/wp-content/uploads/2022/04/JWDominion.jpg')] bg-no-repeat bg-cover flex items-center">
                     <div className="container mx-auto">
                         <Row>
                             <Col span={12}>

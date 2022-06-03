@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-const axios = require("axios");
-const API_URL = "http://notflixtv.herokuapp.com/api/v1/";
+import axios from "axios";
+export const API_URL = "http://notflixtv.herokuapp.com/api/v1/";
+export const TOKEN = JSON.parse(localStorage.getItem("token"));
 
 export const fetchMovies = createAsyncThunk(
     "movies/fetchMovies",
@@ -66,6 +67,22 @@ export const fetchGenres = createAsyncThunk(
     }
 );
 
+export const searchMovie = createAsyncThunk(
+    "movies/searchMovie",
+    async (params) => {
+        const { search, page } = params;
+        try {
+            const response = await axios.get(
+                `${API_URL}movies?search=${search}&page=${page}`
+            );
+            console.log(response);
+            return response;
+        } catch (err) {
+            return err;
+        }
+    }
+);
+
 export const movieSlice = createSlice({
     name: "movie",
     initialState: {
@@ -91,6 +108,12 @@ export const movieSlice = createSlice({
             error: false,
         },
         moviesbygenre: {
+            data: [],
+            pagination: {},
+            loading: false,
+            error: false,
+        },
+        searchmovie: {
             data: [],
             pagination: {},
             loading: false,
@@ -164,6 +187,20 @@ export const movieSlice = createSlice({
         [fetchGenres.rejected]: (state, action) => {
             state.moviesbygenre.loading = false;
             state.moviesbygenre.error = action.error.message;
+        },
+
+        // FETCH DATA MOVIES BY GENRE
+        [searchMovie.pending]: (state) => {
+            state.searchmovie.loading = true;
+        },
+        [searchMovie.fulfilled]: (state, action) => {
+            state.searchmovie.pagination = action.payload.data.data;
+            state.searchmovie.data = action.payload.data.data.docs;
+            state.searchmovie.loading = false;
+        },
+        [searchMovie.rejected]: (state, action) => {
+            state.searchmovie.loading = false;
+            state.searchmovie.error = action.error.message;
         },
     },
 });

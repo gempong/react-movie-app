@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Logo from "../assets/images/Logo.svg";
 
-import { Input, Button, Row, Col, Avatar, Dropdown, Menu } from "antd";
+import { Form, Input, Button, Row, Col, Avatar, Dropdown, Menu } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 import Register from "../components/ModalRegister";
 import Login from "../components/ModalLogin";
+import EditProfile from "../components/ModalEditProfile";
 
 import { useDispatch, useSelector } from "react-redux";
-import { reset } from "../stores/user/userSlice";
+import { reset, getUser } from "../stores/user/userSlice";
 
 function Navbar() {
-    const { data } = useSelector((state) => state.user.auth);
+    const history = useHistory();
+    const [form] = Form.useForm();
+    const { token } = useSelector((state) => state.user.auth);
+    const { data } = useSelector(
+        (state) => state.user.user
+    );
     const dispatch = useDispatch();
-
     const registerEvents = { click: () => { } };
     const loginEvents = { click: () => { } };
-
-    console.log(data);
-
-    const [user, setUser] = useState("");
-
-    useEffect(() => {
-        setUser(data);
-    }, [data]);
+    const editProfileEvents = { click: () => { } };
 
     const logOut = () => {
-        localStorage.removeItem("user");
         localStorage.removeItem("token");
-        setUser("");
         dispatch(reset())
     };
 
@@ -37,10 +33,25 @@ function Navbar() {
         console.log(key)
     }
 
+    const onFinish = async (values) => {
+        console.log(values)
+        history.push("/search/"+values.search);
+    };
+
+    const onFinishFailed = (errorInfo) => {
+        console.log("Failed:", errorInfo);
+    };
+
+    useEffect(() => {
+        if (token) {
+            dispatch(getUser(token));
+        }
+    }, [dispatch, token]);
+
     const menu = (
         <Menu onClick={handleClick} className="mt-3">
-            <Menu.Item key="Recommend">Edit Profile</Menu.Item>
-            <Menu.Item key="Newest" onClick={logOut}>Log Out</Menu.Item>
+            <Menu.Item key="Profile" onClick={() => editProfileEvents.click()}>Edit Profile</Menu.Item>
+            <Menu.Item key="Logout" onClick={logOut}>Log Out</Menu.Item>
         </Menu>
     );
 
@@ -55,15 +66,29 @@ function Navbar() {
                             </Link>
                         </Col>
                         <Col span={8}>
-                            <Input
-                                size="large"
-                                placeholder="What do you want to watch?"
-                                suffix={<SearchOutlined />}
-                                className="bg-transparent"
-                            />
+                            <Form
+                                form={form}
+                                name="register"
+                                layout="vertical"
+                                onFinish={onFinish}
+                                onFinishFailed={onFinishFailed}
+                                autoComplete="off"
+                            >
+                                <Form.Item
+                                    name="search"
+                                    className="mb-0"
+                                    rules={[{ required: true, message: "Please input your email!" }]}>
+                                    <Input
+                                        size="large"
+                                        placeholder="What do you want to watch?"
+                                        suffix={<SearchOutlined />}
+                                        className="bg-transparent"
+                                    />
+                                </Form.Item>
+                            </Form>
                         </Col>
                         <Col span={8} className="flex justify-end">
-                            {!user && (
+                            {!data && (
                                 <>
                                     <Button
                                         ghost
@@ -84,17 +109,17 @@ function Navbar() {
                                     </Button>
                                 </>
                             )}
-                            {!!user && (
+                            {!!data && (
                                 <>
                                     <Dropdown
                                         overlay={menu}
                                         trigger={["click"]}
 
                                     >
-                                        <a onClick={(e) => e.preventDefault()} className="flex items-center">
-                                            <Avatar size="large" src={user.image ? user.image : `https://ui-avatars.com/api/?name=${user.first_name + ' ' + user.last_name}`} />
-                                            <span className="text-white ml-3 text-lg">{user.first_name + ' ' + user.last_name}</span>
-                                        </a>
+                                        <div onClick={(e) => e.preventDefault()} className="flex items-center cursor-pointer select-none">
+                                            <Avatar size="large" src={data.image ? data.image : `https://ui-avatars.com/api/?name=${data.first_name + ' ' + data.last_name}`} />
+                                            <span className="text-white ml-3 text-lg">{data.first_name + ' ' + data.last_name}</span>
+                                        </div>
                                     </Dropdown>
                                 </>
                             )}
@@ -104,6 +129,7 @@ function Navbar() {
             </div>
             <Register events={registerEvents} />
             <Login events={loginEvents} />
+            <EditProfile events={editProfileEvents} />
         </header>
     );
 }
