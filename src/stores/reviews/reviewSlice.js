@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-export const API_URL = "http://notflixtv.herokuapp.com/api/v1/";
+export const API_URL = "https://notflixtv.herokuapp.com/api/v1/";
 
 export const fetchReviews = createAsyncThunk(
     "reviews/fetchReviews",
