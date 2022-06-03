@@ -27,7 +27,7 @@ body{
 
 .ant-carousel{
   .slick-dots-bottom{
-    @apply bottom-8;
+    @apply bottom-8 z-auto;
   }
 } 
 
@@ -65,4 +65,9 @@ body{
   &:hover .movie-card-content{
     @apply bottom-7
   }
+}
+
+.search-mobile{
+    @apply fixed left-0 right-0 top-0 bottom-0 flex items-center p-5 z-50;
+    background-color: rgba(0, 0, 0, 0.9);
 }

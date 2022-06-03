@@ -58,12 +58,12 @@ function Home() {
             variants={pageVariants}
         >
             <Hero />
-            <div className="container mx-auto pt-32">
-                <div className="flex items-center justify-between mb-14">
-                    <h2 className="text-4xl font-semibold leading-tight">
+            <div className="container mx-auto xl:px-0 px-4 xl:pt-32 pt-10">
+                <div className="flex xl:items-center xl:flex-row flex-col justify-between xl:mb-14 mb-10">
+                    <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight">
                         Popular Movie
                     </h2>
-                    <Link className="text-lg flex items-center" to="/movies">
+                    <Link className="xl:text-lg text-base flex items-center" to="/movies">
                         See All Movie <ArrowRightOutlined className="ml-3" />
                     </Link>
                 </div>
@@ -72,8 +72,20 @@ function Home() {
                         delay: 6000,
                         disableOnInteraction: true,
                     }}
-                    spaceBetween={50}
-                    slidesPerView={4}
+                    breakpoints={{
+                        640: {
+                          slidesPerView: 1,
+                          spaceBetween: 20,
+                        },
+                        768: {
+                          slidesPerView: 2,
+                          spaceBetween: 40,
+                        },
+                        1024: {
+                          slidesPerView: 4,
+                          spaceBetween: 50,
+                        },
+                      }}
                     modules={[Autoplay]}
                 >
                     {loadingPopular && LoadingMovie}
@@ -92,17 +104,32 @@ function Home() {
                         ))}
                 </Swiper>
             </div>
-            <div className="container mx-auto py-32">
-                <div className="flex items-center justify-between mb-3">
-                    <h2 className="text-4xl font-semibold leading-tight mb-8">
+            <div className="container mx-auto xl:px-0 px-4 xl:py-32 py-10">
+                <div className="flex xl:items-center xl:flex-row flex-col justify-between xl:mb-14 mb-5">
+                    <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight">
                         Browse by Category
                     </h2>
-                    <Link className="text-lg flex items-center" to="/movies">
+                    <Link className="xl:text-lg text-base flex items-center" to="/movies">
                         See All Movie <ArrowRightOutlined className="ml-3" />
                     </Link>
                 </div>
-                <div className="mb-14">
-                    <Swiper spaceBetween={10} slidesPerView={10}>
+                <div className="xl:mb-14 mb-10">
+                    <Swiper
+                        breakpoints={{
+                            640: {
+                              slidesPerView: 2,
+                              spaceBetween: 10,
+                            },
+                            768: {
+                              slidesPerView: 4,
+                              spaceBetween: 10,
+                            },
+                            1024: {
+                              slidesPerView: 8,
+                              spaceBetween: 10,
+                            },
+                          }}
+                    >
                         {dataGenres &&
                             dataGenres.length > 0 &&
                             dataGenres.map((i, index) => (
@@ -127,8 +154,20 @@ function Home() {
                         delay: 6000,
                         disableOnInteraction: true,
                     }}
-                    spaceBetween={50}
-                    slidesPerView={4}
+                    breakpoints={{
+                        640: {
+                          slidesPerView: 1,
+                          spaceBetween: 20,
+                        },
+                        768: {
+                          slidesPerView: 2,
+                          spaceBetween: 40,
+                        },
+                        1024: {
+                          slidesPerView: 4,
+                          spaceBetween: 50,
+                        },
+                      }}
                     modules={[Autoplay]}
                 >
                     {loading && LoadingMovie}

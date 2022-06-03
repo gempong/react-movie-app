@@ -4,24 +4,24 @@ import { FacebookOutlined, InstagramOutlined, TwitterOutlined, YoutubeOutlined }
 
 function Footer(){
     return(
-        <footer className="py-32 bg-slate-100">
-            <div className="container mx-auto text-center">
+        <footer className="xl:py-32 py-10 bg-slate-100">
+            <div className="container mx-auto text-center xl:px-0 px-4">
                 <div className="social-media mb-9">
-                    <ul className="flex list-none justify-center">
-                        <li><a href="/" className="mx-6 text-2xl"><FacebookOutlined /></a></li>
-                        <li><a href="/" className="mx-6 text-2xl"><InstagramOutlined /></a></li>
-                        <li><a href="/" className="mx-6 text-2xl"><TwitterOutlined /></a></li>
-                        <li><a href="/" className="mx-6 text-2xl"><YoutubeOutlined /></a></li>
+                    <ul className="flex list-none justify-center p-0">
+                        <li><a href="/" className="mx-6 xl:text-2xl text-xl"><FacebookOutlined /></a></li>
+                        <li><a href="/" className="mx-6 xl:text-2xl text-xl"><InstagramOutlined /></a></li>
+                        <li><a href="/" className="mx-6 xl:text-2xl text-xl"><TwitterOutlined /></a></li>
+                        <li><a href="/" className="mx-6 xl:text-2xl text-xl"><YoutubeOutlined /></a></li>
                     </ul>
                 </div>
                 <div className="social-media mb-9">
-                    <ul className="flex list-none justify-center">
-                        <li><a href="/" className="text-gray-900 mx-6 text-lg">Conditions of Use</a></li>
-                        <li><a href="/" className="text-gray-900 mx-6 text-lg">Privacy & Policy</a></li>
-                        <li><a href="/" className="text-gray-900 mx-6 text-lg">Press Room</a></li>
+                    <ul className="flex xl:flex-row flex-col list-none justify-center p-0">
+                        <li><a href="/" className="text-gray-900 xl:mx-6 xl:mb-0 mx-0 mb-4 block xl:text-lg text-sm">Conditions of Use</a></li>
+                        <li><a href="/" className="text-gray-900 xl:mx-6 xl:mb-0 mx-0 mb-4 block xl:text-lg text-sm">Privacy & Policy</a></li>
+                        <li><a href="/" className="text-gray-900 xl:mx-6 xl:mb-0 mx-0 mb-4 block xl:text-lg text-sm">Press Room</a></li>
                     </ul>
                 </div>
-                <p className="text-lg text-gray-500">© 2021 MovieBox. All Right Reserved.  </p>
+                <p className="xl:text-lg text-sm text-gray-500">© 2021 MovieBox. All Right Reserved.  </p>
             </div>
         </footer>
     )
