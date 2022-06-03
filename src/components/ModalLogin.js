@@ -40,7 +40,7 @@ function Login(props) {
         setIsModalVisible(false);
         console.log('closed')
         form.resetFields()
-    }, [success]);
+    }, [success, dispatch, form, token]);
 
     useEffect(() => {
         if (error) {

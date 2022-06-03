@@ -44,15 +44,24 @@ function Profile(props) {
         setIsModalVisible(false);
     };
 
+    let defaultValues = {
+        first_name: data ? data.first_name : '',
+        last_name: data ? data.last_name  : '',
+        email: data ? data.email : '',
+    }
+
     const onFinish = async (values) => {
-        console.log(values)
         await dispatch(updateUser(values))
         setIsModalVisible(false);
         form.resetFields()
         setFileList();
         message.success('Profile update successful');
+        if(values){
+            defaultValues = values;
+            form.setFieldsValue(defaultValues)
+        }
         if(token){
-            dispatch(getUser(token));
+            await dispatch(getUser(token));
         }
     };
 
@@ -97,18 +106,6 @@ function Profile(props) {
             console.log(error);
         }
     }, [error]);
-
-    const defaultValues = {
-        first_name: data ? data.first_name : '',
-        last_name: data ? data.last_name : '',
-        email: data ? data.email : '',
-    }
-
-    useEffect(() => {
-        if (!loading) {
-            form.setFieldsValue(defaultValues)
-        }
-    }, [form, defaultValues, loading])
 
     return (
         <>
