@@ -62,27 +62,27 @@ function DetailMovie() {
             variants={pageVariants}
         >
             <section style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w500${data.poster}')` }} className={`hero-content pt-24 bg-no-repeat bg-cover flex items-center`}>
-                <div className="container mx-auto py-24">
+                <div className="container mx-auto xl:px-0 px-4 py-24">
                     <Row>
-                        <Col span={12}>
-                            <h1 className="text-white text-6xl font-semibold leading-tight mb-5 capitalize">
+                        <Col lg={{ span: 12 }} xs={{ span: 24 }}>
+                            <h1 className="text-white xl:text-6xl sm:text-5xl text-3xl font-semibold leading-tight mb-5">
                                 {data ? data.title : ''}
                             </h1>
                             <div className="genre mb-7">
                                 {!!data.genres &&
                                     data.genres.length > 0 &&
                                     data.genres.map((item, index) => (
-                                        <span className="text-lg text-white inline-block" key={item.id}>
+                                        <span className="text-white xl:text-lg sm:text-base text-sm inline-block" key={item.id}>
                                             {item}
                                             {data.genres.length !== index + 1 && <span key={item.id} className="mr-2">,</span>}
                                         </span>
                                     ))}
                             </div>
-                            <p className="text-white text-lg leading-loose mb-7">
+                            <p className="text-white xl:text-lg sm:text-base text-sm leading-loose mb-7">
                                 {data ? data.synopsis : ''}
                             </p>
-                            <p className="font-normal text-lg text-white mb-7 flex items-center">
-                                <StarOutlined className="mr-2 text-lg text-yellow-500 leading-none" />{" "}
+                            <p className="font-normal xl:text-lg sm:text-base text-sm text-white mb-7 flex items-center">
+                                <StarOutlined className="mr-2 xl:text-lg sm:text-base text-sm text-yellow-500 leading-none" />{" "}
                                 <span className="leading-none">{rating(data ? data.rating : '')} / 10</span>
                             </p>
                             <Button
@@ -98,9 +98,9 @@ function DetailMovie() {
                     </Row>
                 </div>
             </section>
-            <section className="pt-28">
-                <div className="container mx-auto">
-                    <h2 className="text-4xl font-semibold leading-tight mb-8">
+            <section className="xl:pt-28 pt-10">
+                <div className="container mx-auto xl:px-0 px-4">
+                    <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-8 mb-5">
                         Cast and Crew Info
                     </h2>
                     <Swiper
@@ -108,8 +108,20 @@ function DetailMovie() {
                             delay: 6000,
                             disableOnInteraction: true,
                         }}
-                        spaceBetween={50}
-                        slidesPerView={4}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 40,
+                            },
+                            1024: {
+                                slidesPerView: 4,
+                                spaceBetween: 50,
+                            },
+                        }}
                         modules={[Autoplay]}
                     >
                         {loading && loadingCast}
@@ -128,10 +140,10 @@ function DetailMovie() {
                     </Swiper>
                 </div>
             </section>
-            <section className="py-28">
-                <div className="container mx-auto">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-4xl font-semibold leading-tight mb-0">
+            <section className="xl:py-28 py-10">
+                <div className="container mx-auto xl:px-0 px-4">
+                    <div className="flex xl:items-center xl:flex-row flex-col justify-between xl:mb-8 mb-5">
+                        <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-0 mb-5">
                             What People Says
                         </h2>
                         {success && (
@@ -151,8 +163,20 @@ function DetailMovie() {
                             delay: 6000,
                             disableOnInteraction: true,
                         }}
-                        spaceBetween={50}
-                        slidesPerView={3}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 40,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                                spaceBetween: 50,
+                            },
+                        }}
                         modules={[Autoplay]}
                     >
                         {!!reviews && reviews.length > 0 && reviews.map((i, index) => (
@@ -177,7 +201,7 @@ function DetailMovie() {
                     </Swiper>
                 </div>
             </section>
-            <FormReviews movie={id} events={reviewsEvent}/>
+            <FormReviews movie={id} events={reviewsEvent} />
         </motion.div>
     );
 }

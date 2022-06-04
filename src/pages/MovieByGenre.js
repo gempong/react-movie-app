@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGenres, fetchAllGenres } from "../stores/movie/movieSlice";
 
 import { Row, Col, Skeleton, Button, Pagination } from "antd";
-
+import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -19,7 +19,7 @@ import MovieCard from "../components/MovieCard";
 
 function Loading() {
     return (
-        <Col span={6} className="skeleton-movie">
+        <Col lg={{ span: 6 }} xs={{ span: 24 }} className="skeleton-movie">
             <Skeleton.Avatar active size="large" shape="square" />
             <Skeleton active style={{ marginBottom: "50px" }}></Skeleton>
         </Col>
@@ -64,12 +64,35 @@ function DetailMovie() {
             variants={pageVariants}
         >
             <HeroInternal pageTitle={`Genre: ${genre}`} />
-            <div className="container mx-auto py-32">
-                <h2 className="text-4xl font-semibold leading-tight mb-8">
+            <div className="container mx-auto xl:px-0 px-4 xl:py-32 py-10">
+                <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">
                     Browse by Category
                 </h2>
-                <div className="mb-14">
-                    <Swiper spaceBetween={10} slidesPerView={10}>
+                <div className="xl:mb-14 mb-5">
+                    <Swiper breakpoints={{
+                        320: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        640: {
+                            slidesPerView: 3,
+                            spaceBetween: 10,
+                        },
+                        768: {
+                            slidesPerView: 4,
+                            spaceBetween: 10,
+                        },
+                        1024: {
+                            slidesPerView: 8,
+                            spaceBetween: 10,
+                        },
+                    }}
+                    autoplay={{
+                        delay: 6000,
+                        disableOnInteraction: true,
+                    }}
+                    modules={[Autoplay]}
+                    >
                         {dataGenres &&
                             dataGenres.length > 0 &&
                             dataGenres.map((i, index) => (
@@ -89,11 +112,11 @@ function DetailMovie() {
                             ))}
                     </Swiper>
                 </div>
-                <Row gutter={50}>
+                <Row lg={{ gutter: 50 }} sm={{ gutter: 30 }} xs={{ gutter: 20 }}>
                     {loading && LoadingMovie}
                     {!loading && data.length > 0 &&
                         data.map((i, index) => (
-                            <Col className="mb-14" span={6} key={index}>
+                            <Col className="xl:mb-14 mb-5" lg={{ span: 6 }} sm={{ span: 12 }} xs={{ span: 24 }} key={index}>
                                 <MovieCard
                                     id={i._id}
                                     poster={i.poster}

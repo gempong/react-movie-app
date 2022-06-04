@@ -74,18 +74,18 @@ function Home() {
                     }}
                     breakpoints={{
                         640: {
-                          slidesPerView: 1,
-                          spaceBetween: 20,
+                            slidesPerView: 1,
+                            spaceBetween: 20,
                         },
                         768: {
-                          slidesPerView: 2,
-                          spaceBetween: 40,
+                            slidesPerView: 2,
+                            spaceBetween: 40,
                         },
                         1024: {
-                          slidesPerView: 4,
-                          spaceBetween: 50,
+                            slidesPerView: 4,
+                            spaceBetween: 50,
                         },
-                      }}
+                    }}
                     modules={[Autoplay]}
                 >
                     {loadingPopular && LoadingMovie}
@@ -116,19 +116,28 @@ function Home() {
                 <div className="xl:mb-14 mb-10">
                     <Swiper
                         breakpoints={{
+                            320: {
+                                slidesPerView: 2,
+                                spaceBetween: 10,
+                            },
                             640: {
-                              slidesPerView: 2,
-                              spaceBetween: 10,
+                                slidesPerView: 2,
+                                spaceBetween: 10,
                             },
                             768: {
-                              slidesPerView: 4,
-                              spaceBetween: 10,
+                                slidesPerView: 4,
+                                spaceBetween: 10,
                             },
                             1024: {
-                              slidesPerView: 8,
-                              spaceBetween: 10,
+                                slidesPerView: 8,
+                                spaceBetween: 10,
                             },
-                          }}
+                        }}
+                        autoplay={{
+                            delay: 6000,
+                            disableOnInteraction: true,
+                        }}
+                        modules={[Autoplay]}
                     >
                         {dataGenres &&
                             dataGenres.length > 0 &&
@@ -156,18 +165,18 @@ function Home() {
                     }}
                     breakpoints={{
                         640: {
-                          slidesPerView: 1,
-                          spaceBetween: 20,
+                            slidesPerView: 1,
+                            spaceBetween: 20,
                         },
                         768: {
-                          slidesPerView: 2,
-                          spaceBetween: 40,
+                            slidesPerView: 2,
+                            spaceBetween: 40,
                         },
                         1024: {
-                          slidesPerView: 4,
-                          spaceBetween: 50,
+                            slidesPerView: 4,
+                            spaceBetween: 50,
                         },
-                      }}
+                    }}
                     modules={[Autoplay]}
                 >
                     {loading && LoadingMovie}

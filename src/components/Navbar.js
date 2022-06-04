@@ -80,7 +80,7 @@ function Navbar() {
                     <Row className="items-center justify-between">
                         <Col span={8}>
                             <Link to="/">
-                                <img src={Logo} alt="Logo" />
+                                <img className="xl:h-8 h-7" src={Logo} alt="Logo" />
                             </Link>
                         </Col>
                         <Col span={8} className="hidden sm:block">
