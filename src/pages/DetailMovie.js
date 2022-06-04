@@ -202,7 +202,7 @@ function DetailMovie() {
                         {!!reviews && reviews.length > 0 && reviews.map((i, index) => (
                             <SwiperSlide key={i._id} className="pb-1">
                                 <div key={i._id} className="review-card p-7 border border-solid border-gray-200 rounded-xl">
-                                    {userId && userId._id === i.reviewer._id && (
+                                    {userId && i.reviewer !== null && userId._id === i.reviewer._id && (
                                         <Dropdown overlay={
                                             <Menu className="mt-3">
                                                 <Menu.Item key="Edit" onClick={() => editReview(i)}>Edit</Menu.Item>
@@ -212,10 +212,18 @@ function DetailMovie() {
                                             <EllipsisOutlined className="absolute right-7 top-6 text-lg" />
                                         </Dropdown>
                                     )}
+                                    {i.reviewer !== null && (
                                     <div className="flex items-center mb-5">
-                                        <Avatar src={i.reviewer.image ? i.reviewer.image : `https://ui-avatars.com/api/?name=${i.reviewer.first_name + ' ' + i.reviewer.last_name}`} />
+                                        <Avatar src={i.reviewer ? i.reviewer.image : `https://ui-avatars.com/api/?name=${ i.reviewer.first_name + ' ' + i.reviewer.last_name}`}  />
                                         <span className="ml-3 capitalize text-base">{i.reviewer.first_name + ' ' + i.reviewer.last_name}</span>
                                     </div>
+                                    )}
+                                    {i.reviewer == null && (
+                                    <div className="flex items-center mb-5">
+                                        <Avatar src={'https://ui-avatars.com/api/?name=Not+Found'}  />
+                                        <span className="ml-3 capitalize text-base">User Not Found</span>
+                                    </div>
+                                    )}
                                     <h4 className="font-bold text-lg mb-3 capitalize">
                                         {i.title}
                                     </h4>

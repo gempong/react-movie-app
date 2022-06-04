@@ -39,6 +39,7 @@ function DetailMovie() {
 
     const paginationHandler = (current) => {
         dispatch(fetchMovies(current));
+        window.scrollTo(0, 0);
     }
 
     return (
@@ -70,7 +71,7 @@ function DetailMovie() {
                             </Col>
                         ))}
                 </Row>
-                {!loading && pagination.totalPages !== 1 && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
+                {!loading && pagination.totalPages !== 1 && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} defaultPageSize={pagination.limit} total={pagination.totalDocs} showSizeChanger={false} />}
             </div>
         </motion.div>
     );

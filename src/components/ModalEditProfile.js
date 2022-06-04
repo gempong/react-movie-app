@@ -7,6 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { reset, getUser, updateUser, API_URL } from "../stores/user/userSlice";
 
 function Profile(props) {
+    const [form] = Form.useForm();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const { data } = useSelector((state) => state.user.user);
+    const { token } = useSelector((state) => state.user.auth);
+    const { loading, error, errorMessage } = useSelector((state) => state.user.update);
+    const dispatch = useDispatch();
+
     const [fileList, setFileList] = useState([]);
     const uploadProps = {
         onRemove: (file) => {
@@ -29,13 +36,6 @@ function Profile(props) {
         return e && e.fileList;
     };
 
-    const [ form ] = Form.useForm();
-    const [ isModalVisible, setIsModalVisible ] = useState(false);
-    const { data } = useSelector((state) => state.user.user);
-    const { token } = useSelector((state) => state.user.auth);
-    const { loading, error, errorMessage } = useSelector((state) => state.user.update);
-    const dispatch = useDispatch();
-
     const showModal = () => {
         setIsModalVisible(true);
     };
@@ -45,22 +45,22 @@ function Profile(props) {
 
     let defaultValues = {
         first_name: data ? data.first_name : '',
-        last_name: data ? data.last_name  : '',
+        last_name: data ? data.last_name : '',
         email: data ? data.email : '',
     }
 
     const onFinish = async (values) => {
-        await dispatch(updateUser(values))
-
+        const updateValues = { token, values }
+        await dispatch(updateUser(updateValues))
         setIsModalVisible(false);
         form.resetFields()
         setFileList();
         message.success('Profile update successful');
-        if(values){
+        if (values) {
             defaultValues = values;
             form.setFieldsValue(defaultValues)
         }
-        if(token){
+        if (token) {
             await dispatch(getUser(token));
         }
     };
@@ -75,12 +75,13 @@ function Profile(props) {
                 const response = await axios.delete(`${API_URL}users/me`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                message.success('Account deleted successfully');
                 setIsModalVisible(false);
-                form.resetFields()
                 setFileList();
-                localStorage.removeItem("token");
                 dispatch(reset())
+                message.success('Account deleted successfully');
+                form.resetFields();
+                localStorage.removeItem("token");
+                return response;
             } catch (err) {
                 if (!err.response) {
                     throw err;
@@ -137,7 +138,7 @@ function Profile(props) {
                                 className="text-center"
                                 name='image'
                                 getValueFromEvent={getFile}>
-                                <Upload {...uploadProps}>
+                                <Upload {...uploadProps} listType="picture" accept="image/*">
                                     <Button className="rounded-full" icon={<UploadOutlined />}>Update Profile Picture</Button>
                                 </Upload>
                             </Form.Item>

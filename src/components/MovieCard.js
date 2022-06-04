@@ -8,7 +8,7 @@ const rating = (x) => Number.parseFloat(x).toFixed(1);
 function MovieCard(props) {
   return (
     <Link to={`/movie/${props.id}`}>
-      <div className="movie-card relative h-[500px] rounded-xl bg-cover" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${props.poster})`}}>
+      <div className="movie-card relative h-[500px] rounded-xl bg-cover bg-center" style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${props.poster})`}}>
         <div className="movie-card-content">
           <p className=" text-sm text-white mb-3">{props.year}</p>
           <h4 className="font-bold text-lg text-white mb-3">

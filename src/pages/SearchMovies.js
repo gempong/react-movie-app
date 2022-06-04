@@ -41,6 +41,7 @@ function SearchMovies() {
 
     const paginationHandler = (current) => {
         dispatch(searchMovie({ search: search, page: current, }));
+        window.scrollTo(0, 0);
     }
 
     return (
@@ -72,7 +73,7 @@ function SearchMovies() {
                             </Col>
                         ))}
                 </Row>
-                {!loading && pagination.totalPages !== 1 && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
+                {!loading && pagination.totalPages !== 1 && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} defaultPageSize={pagination.limit} total={pagination.totalPages} showSizeChanger={false} />}
             </div>
         </motion.div>
     );

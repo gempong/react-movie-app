@@ -64,8 +64,8 @@ export const getUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     "user/updateUser",
-    async (values, { rejectWithValue }) => {
-        if(TOKEN){
+    async ({token, values}, { rejectWithValue }) => {
+        if(token){
             try {
                 let bodyFormData = new FormData();
                 bodyFormData.append('first_name', values.first_name);
@@ -78,7 +78,7 @@ export const updateUser = createAsyncThunk(
                     method: "put",
                     url: `${API_URL}users`,
                     data: bodyFormData,
-                    headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${TOKEN}` },
+                    headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
                 })
                 return response;
             } catch (err) {
