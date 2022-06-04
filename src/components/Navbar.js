@@ -99,7 +99,7 @@ function Navbar() {
                                         size="large"
                                         placeholder="What do you want to watch?"
                                         suffix={<SearchOutlined />}
-                                        className="bg-transparent"
+                                        className="bg-transparent rounded-full px-5"
                                     />
                                 </Form.Item>
                             </Form>
@@ -113,7 +113,7 @@ function Navbar() {
                                     </Dropdown>
                                     <Button
                                         ghost
-                                        className="hidden sm:block mr-3 min-w-[100px]"
+                                        className="hidden sm:block mr-3 min-w-[100px] rounded-full"
                                         type="primary"
                                         size="large"
                                         onClick={() => loginEvents.click()}
@@ -121,7 +121,7 @@ function Navbar() {
                                         Login
                                     </Button>
                                     <Button
-                                        className="hidden sm:block min-w-[100px]"
+                                        className="hidden sm:block min-w-[100px] rounded-full"
                                         type="primary"
                                         size="large"
                                         onClick={() => registerEvents.click()}

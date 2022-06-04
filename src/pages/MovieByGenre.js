@@ -40,8 +40,6 @@ function DetailMovie() {
         dispatch(fetchGenres({ genre: genre, page: 1, }));
     }, [dispatch, genre]);
 
-    console.log(data);
-
     if (error) {
         console.log(error);
     }
@@ -100,7 +98,7 @@ function DetailMovie() {
                                     <Link to={`/genre/${i}`}>
                                         <Button
                                             key={index}
-                                            className="w-full capitalize"
+                                            className="w-full capitalize rounded-full"
                                             type="primary"
                                             size="large"
                                             ghost={i !== genre}
@@ -112,7 +110,7 @@ function DetailMovie() {
                             ))}
                     </Swiper>
                 </div>
-                <Row lg={{ gutter: 50 }} sm={{ gutter: 30 }} xs={{ gutter: 20 }}>
+                <Row gutter={50}>
                     {loading && LoadingMovie}
                     {!loading && data.length > 0 &&
                         data.map((i, index) => (
@@ -128,7 +126,7 @@ function DetailMovie() {
                             </Col>
                         ))}
                 </Row>
-                {!loading && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
+                {!loading && pagination.totalPages !== 1 && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
             </div>
         </motion.div>
     );

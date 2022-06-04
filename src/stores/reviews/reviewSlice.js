@@ -20,13 +20,52 @@ export const fetchReviews = createAsyncThunk(
 
 export const postReviews = createAsyncThunk(
     "reviews/postReviews",
-    async ({id, values, token}, { rejectWithValue }) => {
+    async ({ id, values, token }, { rejectWithValue }) => {
         if (token) {
             try {
                 const response = await axios.post(`${API_URL}reviews/${id}/create`, values, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                console.log(response);
+                return response.data;
+            } catch (err) {
+                if (!err.response) {
+                    throw err;
+                }
+                console.log(err);
+                return rejectWithValue(err.response.data);
+            }
+        }
+    }
+);
+
+export const editReviews = createAsyncThunk(
+    "reviews/editReviews",
+    async ({ id, values, token }, { rejectWithValue }) => {
+        if (token) {
+            try {
+                const response = await axios.put(`${API_URL}reviews/update/${id}`, values, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                return response.data;
+            } catch (err) {
+                if (!err.response) {
+                    throw err;
+                }
+                console.log(err);
+                return rejectWithValue(err.response.data);
+            }
+        }
+    }
+);
+
+export const deleteReviews = createAsyncThunk(
+    "reviews/deleteReviews",
+    async ({ id, token }, { rejectWithValue }) => {
+        if (token) {
+            try {
+                const response = await axios.delete(`${API_URL}reviews/delete/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
                 return response.data;
             } catch (err) {
                 if (!err.response) {
@@ -55,6 +94,9 @@ export const reviewsSlice = createSlice({
             errorMessage: false,
         },
         update: {
+            data: [],
+        },
+        delete: {
             data: [],
             loading: false,
             error: false,
@@ -89,6 +131,34 @@ export const reviewsSlice = createSlice({
             state.post.loading = false;
             state.post.error = action.error.message;
             state.post.errorMessage = action.payload.message;
+        },
+
+        // EDIT DATA REVIEWS
+        [editReviews.pending]: (state) => {
+            state.post.loading = true;
+        },
+        [editReviews.fulfilled]: (state, action) => {
+            state.update.data = action.payload.data;
+            state.post.loading = false;
+        },
+        [editReviews.rejected]: (state, action) => {
+            state.post.loading = false;
+            state.post.error = action.error.message;
+            state.post.errorMessage = action.payload.message;
+        },
+
+        // POST DATA REVIEWS
+        [deleteReviews.pending]: (state) => {
+            state.delete.loading = true;
+        },
+        [deleteReviews.fulfilled]: (state, action) => {
+            state.delete.data = action.payload.data;
+            state.delete.loading = false;
+        },
+        [deleteReviews.rejected]: (state, action) => {
+            state.delete.loading = false;
+            state.delete.error = action.error.message;
+            state.delete.errorMessage = action.payload.message;
         },
     },
 });

@@ -25,7 +25,6 @@ function Login(props) {
         await dispatch(auth(values));
         await dispatch(getUser(token));
         setIsModalVisible(false);
-        console.log('closed')
         form.resetFields()
     };
 
@@ -38,7 +37,6 @@ function Login(props) {
             dispatch(getUser(token));
         }
         setIsModalVisible(false);
-        console.log('closed')
         form.resetFields()
     }, [success, dispatch, form, token]);
 
@@ -78,6 +76,7 @@ function Login(props) {
                         rules={[{ required: true, message: "Please input your email!" }]}
                     >
                         <Input
+                            className="rounded-full px-5"
                             size="large"
                             placeholder="Email Address"
                             suffix={<MailOutlined />}
@@ -87,10 +86,11 @@ function Login(props) {
                         name="password"
                         rules={[{ required: true, message: "Please input your password!" }]}
                     >
-                        <Input.Password size="large" placeholder="Password" />
+                        <Input.Password className="rounded-full px-5" size="large" placeholder="Password" />
                     </Form.Item>
                     <Form.Item className="m-0">
                         <Button
+                            className="rounded-full"
                             loading={loading}
                             type="primary"
                             htmlType="submit"

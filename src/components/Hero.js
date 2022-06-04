@@ -19,7 +19,7 @@ function Hero() {
                                     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
                                 <Button
-                                    className="flex items-center uppercase font-semibold leading-1 px-5"
+                                    className="flex items-center uppercase font-semibold leading-1 px-5 rounded-full"
                                     type="primary"
                                     icon={<PlayCircleOutlined />}
                                     size="large"
@@ -44,7 +44,7 @@ function Hero() {
                                     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
                                 <Button
-                                    className="flex items-center uppercase font-semibold leading-1 px-5"
+                                    className="flex items-center uppercase font-semibold leading-1 px-5 rounded-full"
                                     type="primary"
                                     icon={<PlayCircleOutlined />}
                                     size="large"
@@ -69,7 +69,7 @@ function Hero() {
                                     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
                                 <Button
-                                    className="flex items-center uppercase font-semibold leading-1 px-5"
+                                    className="flex items-center uppercase font-semibold leading-1 px-5 rounded-full"
                                     type="primary"
                                     icon={<PlayCircleOutlined />}
                                     size="large"

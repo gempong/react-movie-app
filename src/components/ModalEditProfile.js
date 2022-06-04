@@ -23,7 +23,6 @@ function Profile(props) {
     };
 
     const getFile = (e) => {
-        console.log(e)
         if (Array.isArray(e)) {
             return e;
         }
@@ -52,6 +51,7 @@ function Profile(props) {
 
     const onFinish = async (values) => {
         await dispatch(updateUser(values))
+
         setIsModalVisible(false);
         form.resetFields()
         setFileList();
@@ -75,7 +75,6 @@ function Profile(props) {
                 const response = await axios.delete(`${API_URL}users/me`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                console.log(response.data)
                 message.success('Account deleted successfully');
                 setIsModalVisible(false);
                 form.resetFields()
@@ -139,7 +138,7 @@ function Profile(props) {
                                 name='image'
                                 getValueFromEvent={getFile}>
                                 <Upload {...uploadProps}>
-                                    <Button icon={<UploadOutlined />}>Update Profile Picture</Button>
+                                    <Button className="rounded-full" icon={<UploadOutlined />}>Update Profile Picture</Button>
                                 </Upload>
                             </Form.Item>
 
@@ -148,6 +147,7 @@ function Profile(props) {
                                 rules={[{ required: true, message: "Please input your first name!" }]}
                             >
                                 <Input
+                                    className="rounded-full px-5"
                                     size="large"
                                     placeholder="First Name"
                                     suffix={<UserOutlined />}
@@ -158,6 +158,7 @@ function Profile(props) {
                                 rules={[{ required: true, message: "Please input your last name!" }]}
                             >
                                 <Input
+                                    className="rounded-full px-5"
                                     size="large"
                                     placeholder="Last Name"
                                     suffix={<UserOutlined />}
@@ -168,6 +169,7 @@ function Profile(props) {
                                 rules={[{ required: true, message: "Please input your email!" }]}
                             >
                                 <Input
+                                    className="rounded-full px-5"
                                     size="large"
                                     placeholder="Email Address"
                                     suffix={<MailOutlined />}
@@ -175,7 +177,7 @@ function Profile(props) {
                             </Form.Item>
                             <Form.Item className="m-0 flex justify-between">
                                 <Button
-                                    className="w-full"
+                                    className="w-full rounded-full"
                                     loading={loading}
                                     type="primary"
                                     htmlType="submit"
@@ -191,7 +193,7 @@ function Profile(props) {
                                     cancelText="No"
                                 >
                                     <Button
-                                        className="w-full mt-3"
+                                        className="w-full mt-3 rounded-full"
                                         loading={loading}
                                         type="primary"
                                         htmlType="button"

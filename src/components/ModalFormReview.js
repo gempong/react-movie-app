@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Modal, message } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReviews, postReviews } from "../stores/reviews/reviewSlice";
+import { fetchReviews, postReviews, editReviews } from "../stores/reviews/reviewSlice";
 
 function FormReviews(props) {
     const { TextArea } = Input;
@@ -25,8 +25,14 @@ function FormReviews(props) {
     };
 
     const onFinish = async (values) => {
-        const id = props.movie;
-        await dispatch(postReviews({ id, values, token }))
+        let id = props.movie;
+        if(props.edit){
+            id = props.reviewsValue._id;
+            await dispatch(editReviews({ id, values, token }))
+        } else {
+            await dispatch(postReviews({ id, values, token }))
+        }
+        
         await dispatch(fetchReviews())
         setIsModalVisible(false);
         if (!error) {
@@ -46,6 +52,14 @@ function FormReviews(props) {
             props.events.click = showModal;
         }
     }, [props.events]);
+
+    useEffect(() => {
+        if(props.edit === true){
+            form.setFieldsValue(props.reviewsValue)
+        } else {
+            form.resetFields()
+        }
+    }, [form, props.events, props.edit, props.reviewsValue]);
 
     return (
         <>
@@ -70,6 +84,7 @@ function FormReviews(props) {
                         rules={[{ required: true, message: "Please input your rating!" }]}
                     >
                         <Input
+                            className="rounded-full px-5"
                             size="large"
                             placeholder="Rating"
                         />
@@ -79,6 +94,7 @@ function FormReviews(props) {
                         rules={[{ required: true, message: "Please input your review title!" }]}
                     >
                         <Input
+                            className="rounded-full px-5"
                             size="large"
                             placeholder="Title"
                         />
@@ -88,12 +104,13 @@ function FormReviews(props) {
                         rules={[{ required: true, message: "Please input your review!" }]}
                     >
                         <TextArea
+                            className="rounded-3xl px-5"
                             rows={4}
                             placeholder="Leave a Comment!"
                         />
                     </Form.Item>
                     <Form.Item className="m-0">
-                        <Button loading={loading} type="primary" htmlType="submit" size="large">
+                        <Button className="rounded-full" loading={loading} type="primary" htmlType="submit" size="large">
                             Post Now
                         </Button>
                     </Form.Item>

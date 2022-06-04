@@ -31,7 +31,6 @@ function Register(props) {
     };
 
     useEffect(() => {
-        console.log('closed')
         setIsModalVisible(false);
         form.resetFields()
     }, [success, form]);
@@ -72,6 +71,7 @@ function Register(props) {
                         rules={[{ required: true, message: "Please input your first name!" }]}
                     >
                         <Input
+                            className="rounded-full px-5"
                             size="large"
                             placeholder="First Name"
                             suffix={<UserOutlined />}
@@ -82,6 +82,7 @@ function Register(props) {
                         rules={[{ required: true, message: "Please input your last name!" }]}
                     >
                         <Input
+                            className="rounded-full px-5"
                             size="large"
                             placeholder="Last Name"
                             suffix={<UserOutlined />}
@@ -92,6 +93,7 @@ function Register(props) {
                         rules={[{ required: true, message: "Please input your email!" }]}
                     >
                         <Input
+                            className="rounded-full px-5"
                             size="large"
                             placeholder="Email Address"
                             suffix={<MailOutlined />}
@@ -101,16 +103,16 @@ function Register(props) {
                         name="password"
                         rules={[{ required: true, message: "Please input your password!" }]}
                     >
-                        <Input.Password size="large" placeholder="Password" />
+                        <Input.Password className="rounded-full px-5" size="large" placeholder="Password" />
                     </Form.Item>
                     <Form.Item
                         name="password_confirmation"
                         rules={[{ required: true, message: "Please input your password!" }]}
                     >
-                        <Input.Password size="large" placeholder="Password Confirmation" />
+                        <Input.Password className="rounded-full px-5" size="large" placeholder="Password Confirmation" />
                     </Form.Item>
                     <Form.Item className="m-0">
-                        <Button loading={loading} type="primary" htmlType="submit" size="large">
+                        <Button loading={loading} className="rounded-full" type="primary" htmlType="submit" size="large">
                             Register Now
                         </Button>
                     </Form.Item>

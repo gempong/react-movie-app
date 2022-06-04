@@ -56,7 +56,7 @@ function SearchMovies() {
                 <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">
                     Search Result "{search}"
                 </h2>
-                <Row lg={{ gutter: 50 }} sm={{ gutter: 30 }} xs={{ gutter: 20 }}>
+                <Row gutter={50}>
                     {loading && LoadingMovie}
                     {!loading && data.length > 0 &&
                         data.map((i, index) => (
@@ -72,7 +72,7 @@ function SearchMovies() {
                             </Col>
                         ))}
                 </Row>
-                {!loading && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
+                {!loading && pagination.totalPages !== 1 && <Pagination onChange={paginationHandler} defaultCurrent={pagination.page} total={pagination.totalDocs} />}
             </div>
         </motion.div>
     );

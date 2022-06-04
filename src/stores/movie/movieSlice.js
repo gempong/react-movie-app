@@ -59,7 +59,6 @@ export const fetchGenres = createAsyncThunk(
             const response = await axios.get(
                 `${API_URL}movies?genre=${genre}&page=${page}`
             );
-            console.log(page);
             return response;
         } catch (err) {
             return err;
@@ -75,7 +74,6 @@ export const searchMovie = createAsyncThunk(
             const response = await axios.get(
                 `${API_URL}movies?search=${search}&page=${page}`
             );
-            console.log(response);
             return response;
         } catch (err) {
             return err;

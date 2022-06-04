@@ -146,7 +146,7 @@ function Home() {
                                     <Link to={`/genre/${i}`}>
                                         <Button
                                             key={index}
-                                            className="w-full capitalize"
+                                            className="w-full capitalize rounded-full"
                                             type="primary"
                                             size="large"
                                             ghost

@@ -12,7 +12,6 @@ export const auth = createAsyncThunk(
                 localStorage.setItem("token", JSON.stringify(response.data.data.token));
                 return response;
             } else {
-                console.log(response);
                 rejectWithValue(response);
             }
         } catch (err) {
@@ -33,7 +32,6 @@ export const register = createAsyncThunk(
                 localStorage.setItem("user", JSON.stringify(response.data.data));
                 return response;
             } else {
-                console.log(response);
                 rejectWithValue(response);
             }
         } catch (err) {
@@ -82,7 +80,6 @@ export const updateUser = createAsyncThunk(
                     data: bodyFormData,
                     headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${TOKEN}` },
                 })
-                console.log(response)
                 return response;
             } catch (err) {
                 if (!err.response) {

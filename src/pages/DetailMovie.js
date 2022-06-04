@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import moment from 'moment'
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/transition";
-import { Row, Col, Button, Skeleton, Avatar } from "antd";
+import { Menu, Dropdown, Row, Col, Button, Skeleton, Avatar, message } from "antd";
+import { EllipsisOutlined } from '@ant-design/icons';
 
 import { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,7 +14,7 @@ import "swiper/css/navigation";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailMovies } from "../stores/movie/movieSlice";
-import { fetchReviews } from "../stores/reviews/reviewSlice";
+import { fetchReviews, deleteReviews } from "../stores/reviews/reviewSlice";
 import { StarOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import FormReviews from "../components/ModalFormReview";
 
@@ -29,11 +30,30 @@ function Loading() {
 function DetailMovie() {
     const { id } = useParams();
     const { data, loading, error } = useSelector((state) => state.movie.movie);
+    const { loadingDelete } = useSelector((state) => state.reviews.delete);
     const reviews = useSelector((state) => state.reviews.reviews.data);
-    const success = useSelector((state) => state.user.auth.success);
+    const {token, success} = useSelector((state) => state.user.auth);
+    const userId = useSelector((state) => state.user.user.data);
     const dispatch = useDispatch();
+    const reviewsEvent = { click: () => {}};
+    const [review, setReview] = useState({edit: false, value: null})
 
-    const reviewsEvent = { click: () => { } };
+    const createReview = () => {
+        setReview({edit: false, value: null})
+        reviewsEvent.click()
+    }
+
+    const editReview = (value) => {
+        reviewsEvent.click()
+        setReview({edit: true, value: value})
+    }
+
+    const deleteReview = async (id) => {
+        const value = {id, token}
+        await dispatch(deleteReviews(value))
+        await dispatch(fetchReviews())
+        message.success('Delete Your Review Successfully')
+    }
 
     useEffect(() => {
         dispatch(fetchReviews())
@@ -86,7 +106,7 @@ function DetailMovie() {
                                 <span className="leading-none">{rating(data ? data.rating : '')} / 10</span>
                             </p>
                             <Button
-                                className="flex items-center uppercase font-semibold leading-1 px-5"
+                                className="flex items-center uppercase font-semibold leading-1 px-5 rounded-full"
                                 type="primary"
                                 icon={<PlayCircleOutlined />}
                                 size="large"
@@ -129,7 +149,7 @@ function DetailMovie() {
                             data.casts.length > 0 && data.casts.map((i, index) => (
                                 <SwiperSlide key={i.id}>
                                     <div className="cast-profile" key={i.id}>
-                                        <img className="w-full mb-3" alt={i.name} src={i.profile_path ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
+                                        <img className="w-full mb-3 rounded-xl" alt={i.name} src={i.profile_path ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
                                         <h4 className="font-bold text-lg mb-1">
                                             {i.name}
                                         </h4>
@@ -149,10 +169,10 @@ function DetailMovie() {
                         {success && (
                             <Button
                                 ghost
-                                className="min-w-[100px]"
+                                className="min-w-[100px] rounded-full"
                                 type="primary"
                                 size="large"
-                                onClick={() => reviewsEvent.click()}
+                                onClick={createReview}
                             >
                                 Leave a comment
                             </Button>
@@ -181,7 +201,17 @@ function DetailMovie() {
                     >
                         {!!reviews && reviews.length > 0 && reviews.map((i, index) => (
                             <SwiperSlide key={i._id} className="pb-1">
-                                <div key={i._id} className="review-card p-7 border border-solid border-gray-200">
+                                <div key={i._id} className="review-card p-7 border border-solid border-gray-200 rounded-xl">
+                                    {userId && userId._id === i.reviewer._id && (
+                                        <Dropdown overlay={
+                                            <Menu className="mt-3">
+                                                <Menu.Item key="Edit" onClick={() => editReview(i)}>Edit</Menu.Item>
+                                                <Menu.Item key="Delete" loading={loadingDelete} onClick={() => deleteReview(i._id)}>Delete</Menu.Item>
+                                            </Menu>
+                                        } placement="bottomLeft">
+                                            <EllipsisOutlined className="absolute right-7 top-6 text-lg" />
+                                        </Dropdown>
+                                    )}
                                     <div className="flex items-center mb-5">
                                         <Avatar src={i.reviewer.image ? i.reviewer.image : `https://ui-avatars.com/api/?name=${i.reviewer.first_name + ' ' + i.reviewer.last_name}`} />
                                         <span className="ml-3 capitalize text-base">{i.reviewer.first_name + ' ' + i.reviewer.last_name}</span>
@@ -201,7 +231,7 @@ function DetailMovie() {
                     </Swiper>
                 </div>
             </section>
-            <FormReviews movie={id} events={reviewsEvent} />
+            <FormReviews movie={id} events={reviewsEvent} edit={review.edit} reviewsValue={review.value}/>
         </motion.div>
     );
 }
