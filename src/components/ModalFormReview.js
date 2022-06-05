@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Rate, Form, Input, Button, Modal, message } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReviews, postReviews, editReviews } from "../stores/reviews/reviewSlice";
+import { postReviews, editReviews } from "../stores/reviews/reviewSlice";
+import { fetchDetailMovies } from "../stores/movie/movieSlice";
 
 function FormReviews(props) {
     const { TextArea } = Input;
@@ -33,7 +34,7 @@ function FormReviews(props) {
             await dispatch(postReviews({ id, values, token }))
         }
 
-        await dispatch(fetchReviews())
+        dispatch(fetchDetailMovies(props.movie))
         setIsModalVisible(false);
         if (!error) {
             message.success('Your reviews posted successful');

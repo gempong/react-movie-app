@@ -3,7 +3,7 @@ import moment from 'moment'
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { pageVariants } from "../helpers/transition";
-import { Menu, Dropdown, Row, Col, Button, Skeleton, Avatar, message } from "antd";
+import { Empty, Menu, Dropdown, Row, Col, Button, Skeleton, Avatar, message } from "antd";
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import { Autoplay } from "swiper";
@@ -14,7 +14,7 @@ import "swiper/css/navigation";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailMovies } from "../stores/movie/movieSlice";
-import { fetchReviews, deleteReviews } from "../stores/reviews/reviewSlice";
+import { deleteReviews } from "../stores/reviews/reviewSlice";
 import { StarOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import FormReviews from "../components/ModalFormReview";
 
@@ -31,33 +31,28 @@ function DetailMovie() {
     const { id } = useParams();
     const { data, loading, error } = useSelector((state) => state.movie.movie);
     const { loadingDelete } = useSelector((state) => state.reviews.delete);
-    const reviews = useSelector((state) => state.reviews.reviews.data);
-    const {token, success} = useSelector((state) => state.user.auth);
+    const { token, success } = useSelector((state) => state.user.auth);
     const userId = useSelector((state) => state.user.user.data);
     const dispatch = useDispatch();
-    const reviewsEvent = { click: () => {}};
-    const [review, setReview] = useState({edit: false, value: null})
+    const reviewsEvent = { click: () => { } };
+    const [review, setReview] = useState({ edit: false, value: null })
 
     const createReview = () => {
-        setReview({edit: false, value: null})
+        setReview({ edit: false, value: null })
         reviewsEvent.click()
     }
 
     const editReview = (value) => {
         reviewsEvent.click()
-        setReview({edit: true, value: value})
+        setReview({ edit: true, value: value })
     }
 
-    const deleteReview = async (id) => {
-        const value = {id, token}
+    const deleteReview = async (MovieId) => {
+        const value = { MovieId, token }
         await dispatch(deleteReviews(value))
-        await dispatch(fetchReviews())
+        await dispatch(fetchDetailMovies(id))
         message.success('Delete Your Review Successfully')
     }
-
-    useEffect(() => {
-        dispatch(fetchReviews())
-    }, [dispatch]);
 
     useEffect(() => {
         dispatch(fetchDetailMovies(id));
@@ -81,7 +76,7 @@ function DetailMovie() {
             transition={{ delay: 0.7 }}
             variants={pageVariants}
         >
-            <section style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w500${data.poster}')` }} className={`hero-content pt-24 bg-no-repeat bg-cover flex items-center`}>
+            <section style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w500${data ? data.poster : ''}')` }} className={`hero-content pt-24 bg-no-repeat bg-cover flex items-center`}>
                 <div className="container mx-auto xl:px-0 px-4 py-24">
                     <Row>
                         <Col lg={{ span: 12 }} xs={{ span: 24 }}>
@@ -89,7 +84,7 @@ function DetailMovie() {
                                 {data ? data.title : ''}
                             </h1>
                             <div className="genre mb-7">
-                                {!!data.genres &&
+                                {!loading && !!data && !!data.genres &&
                                     data.genres.length > 0 &&
                                     data.genres.map((item, index) => (
                                         <span className="text-white xl:text-lg sm:text-base text-sm inline-block" key={index}>
@@ -123,6 +118,9 @@ function DetailMovie() {
                     <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-8 mb-5">
                         Cast and Crew Info
                     </h2>
+                    {!loading && !!data && !!data.casts && !data.casts.length > 0 && (
+                        <Empty />
+                    )}
                     <Swiper
                         autoplay={{
                             delay: 6000,
@@ -145,18 +143,17 @@ function DetailMovie() {
                         modules={[Autoplay]}
                     >
                         {loading && loadingCast}
-                        {data.casts &&
-                            data.casts.length > 0 && data.casts.map((i, index) => (
-                                <SwiperSlide key={i.id}>
-                                    <div className="cast-profile">
-                                        <img className="w-full mb-3 rounded-xl" alt={i.name} src={i.profile_path ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
-                                        <h4 className="font-bold text-lg mb-1">
-                                            {i.name}
-                                        </h4>
-                                        <p className="text-gray-500">{i.character}</p>
-                                    </div>
-                                </SwiperSlide>
-                            ))}
+                        {!loading && !!data & !!data.casts && data.casts.length > 0 && data.casts.map((i) => (
+                            <SwiperSlide key={i.id}>
+                                <div className="cast-profile">
+                                    <img className="w-full mb-3 rounded-xl" alt={i.name} src={i.profile_path ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
+                                    <h4 className="font-bold text-lg mb-1">
+                                        {i.name}
+                                    </h4>
+                                    <p className="text-gray-500">{i.character}</p>
+                                </div>
+                            </SwiperSlide>
+                        ))}
                     </Swiper>
                 </div>
             </section>
@@ -199,7 +196,8 @@ function DetailMovie() {
                         }}
                         modules={[Autoplay]}
                     >
-                        {!!reviews && reviews.length > 0 && reviews.map((i, index) => (
+                        {loading && loadingCast}
+                        {!loading && !!data && !!data.reviews && data.reviews.length > 0 && data.reviews.map((i, index) => (
                             <SwiperSlide key={i._id} className="pb-1">
                                 <div key={i._id} className="review-card p-7 border border-solid border-gray-200 rounded-xl">
                                     {userId && i.reviewer !== null && userId._id === i.reviewer._id && (
@@ -213,16 +211,16 @@ function DetailMovie() {
                                         </Dropdown>
                                     )}
                                     {i.reviewer !== null && (
-                                    <div className="flex items-center mb-5">
-                                        <Avatar src={i.reviewer ? i.reviewer.image : `https://ui-avatars.com/api/?name=${ i.reviewer.first_name + ' ' + i.reviewer.last_name}`}  />
-                                        <span className="ml-3 capitalize text-base">{i.reviewer.first_name + ' ' + i.reviewer.last_name}</span>
-                                    </div>
+                                        <div className="flex items-center mb-5">
+                                            <Avatar src={i.reviewer ? i.reviewer.image : `https://ui-avatars.com/api/?name=${i.reviewer.first_name + ' ' + i.reviewer.last_name}`} />
+                                            <span className="ml-3 capitalize text-base">{i.reviewer.first_name + ' ' + i.reviewer.last_name}</span>
+                                        </div>
                                     )}
                                     {i.reviewer == null && (
-                                    <div className="flex items-center mb-5">
-                                        <Avatar src={'https://ui-avatars.com/api/?name=Not+Found'}  />
-                                        <span className="ml-3 capitalize text-base">User Not Found</span>
-                                    </div>
+                                        <div className="flex items-center mb-5">
+                                            <Avatar src={'https://ui-avatars.com/api/?name=Not+Found'} />
+                                            <span className="ml-3 capitalize text-base">User Not Found</span>
+                                        </div>
                                     )}
                                     <h4 className="font-bold text-lg mb-3 capitalize">
                                         {i.title}
@@ -237,9 +235,12 @@ function DetailMovie() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                    {!loading && !!data && !!data.reviews && !data.reviews.length > 0 && (
+                        <Empty />
+                    )}
                 </div>
             </section>
-            <FormReviews movie={id} events={reviewsEvent} edit={review.edit} reviewsValue={review.value}/>
+            <FormReviews movie={id} events={reviewsEvent} edit={review.edit} reviewsValue={review.value} />
         </motion.div>
     );
 }

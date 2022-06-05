@@ -60,10 +60,10 @@ export const editReviews = createAsyncThunk(
 
 export const deleteReviews = createAsyncThunk(
     "reviews/deleteReviews",
-    async ({ id, token }, { rejectWithValue }) => {
+    async ({ MovieId, token }, { rejectWithValue }) => {
         if (token) {
             try {
-                const response = await axios.delete(`${API_URL}reviews/delete/${id}`, {
+                const response = await axios.delete(`${API_URL}reviews/delete/${MovieId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 return response.data;

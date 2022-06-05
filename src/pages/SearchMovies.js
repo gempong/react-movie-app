@@ -6,7 +6,7 @@ import { pageVariants } from "../helpers/transition";
 import { useDispatch, useSelector } from "react-redux";
 import { searchMovie } from "../stores/movie/movieSlice";
 
-import { Row, Col, Skeleton, Pagination } from "antd";
+import { Empty, Row, Col, Skeleton, Pagination } from "antd";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -57,6 +57,9 @@ function SearchMovies() {
                 <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">
                     Search Result "{search}"
                 </h2>
+                {!loading && !!data && !data.length > 0 && (
+                    <Empty />
+                )}
                 <Row gutter={50}>
                     {loading && LoadingMovie}
                     {!loading && data.length > 0 &&
