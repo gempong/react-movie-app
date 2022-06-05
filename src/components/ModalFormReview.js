@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, Modal, message } from "antd";
+import { Rate, Form, Input, Button, Modal, message } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReviews, postReviews, editReviews } from "../stores/reviews/reviewSlice";
@@ -26,13 +26,13 @@ function FormReviews(props) {
 
     const onFinish = async (values) => {
         let id = props.movie;
-        if(props.edit){
+        if (props.edit) {
             id = props.reviewsValue._id;
             await dispatch(editReviews({ id, values, token }))
         } else {
             await dispatch(postReviews({ id, values, token }))
         }
-        
+
         await dispatch(fetchReviews())
         setIsModalVisible(false);
         if (!error) {
@@ -54,7 +54,7 @@ function FormReviews(props) {
     }, [props.events]);
 
     useEffect(() => {
-        if(props.edit === true){
+        if (props.edit === true) {
             form.setFieldsValue(props.reviewsValue)
         } else {
             form.resetFields()
@@ -64,6 +64,7 @@ function FormReviews(props) {
     return (
         <>
             <Modal
+                forceRender
                 title="Leave a Comment"
                 visible={isModalVisible}
                 onCancel={handleCancel}
@@ -79,15 +80,8 @@ function FormReviews(props) {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
-                    <Form.Item
-                        name="rating"
-                        rules={[{ required: true, message: "Please input your rating!" }]}
-                    >
-                        <Input
-                            className="rounded-full px-5"
-                            size="large"
-                            placeholder="Rating"
-                        />
+                    <Form.Item name="rating">
+                        <Rate className="text-2xl" count={10} />
                     </Form.Item>
                     <Form.Item
                         name="title"

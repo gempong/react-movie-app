@@ -55,6 +55,7 @@ function Login(props) {
     return (
         <>
             <Modal
+                forceRender
                 title="Log In to Your Account"
                 visible={isModalVisible}
                 onCancel={handleCancel}

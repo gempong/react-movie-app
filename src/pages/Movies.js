@@ -13,9 +13,9 @@ import "swiper/css/navigation";
 import HeroInternal from "../components/HeroInternal";
 import MovieCard from "../components/MovieCard";
 
-function Loading() {
+function Loading(i) {
     return (
-        <Col lg={{ span: 6 }} xs={{ span: 24 }} className="skeleton-movie">
+        <Col lg={{ span: 6 }} xs={{ span: 24 }} className="skeleton-movie" key={i}>
             <Skeleton.Avatar active size="large" shape="square" />
             <Skeleton active style={{ marginBottom: "50px" }}></Skeleton>
         </Col>
@@ -34,7 +34,7 @@ function DetailMovie() {
 
     const LoadingMovie = [];
     for (let i = 1; i <= 4; i++) {
-        LoadingMovie.push(Loading());
+        LoadingMovie.push(Loading(i));
     }
 
     const paginationHandler = (current) => {
@@ -58,8 +58,8 @@ function DetailMovie() {
                 <Row gutter={50}>
                     {loading && LoadingMovie}
                     {!loading && data.length > 0 &&
-                        data.map((i, index) => (
-                            <Col className="xl:mb-14 mb-5" lg={{ span: 6 }} sm={{ span: 12 }} xs={{ span: 24 }} key={index}>
+                        data.map((i) => (
+                            <Col className="xl:mb-14 mb-5" lg={{ span: 6 }} sm={{ span: 12 }} xs={{ span: 24 }} key={i._id}>
                                 <MovieCard
                                     id={i._id}
                                     poster={i.poster}

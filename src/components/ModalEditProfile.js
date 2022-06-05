@@ -110,6 +110,7 @@ function Profile(props) {
     return (
         <>
             <Modal
+                forceRender
                 title="Edit Profile"
                 visible={isModalVisible}
                 onCancel={handleCancel}

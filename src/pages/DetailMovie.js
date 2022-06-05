@@ -18,9 +18,9 @@ import { fetchReviews, deleteReviews } from "../stores/reviews/reviewSlice";
 import { StarOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import FormReviews from "../components/ModalFormReview";
 
-function Loading() {
+function Loading(i) {
     return (
-        <SwiperSlide className="skeleton-cast">
+        <SwiperSlide className="skeleton-cast" key={i}>
             <Skeleton.Avatar active size="large" shape="square" />
             <Skeleton active style={{ marginBottom: "50px" }}></Skeleton>
         </SwiperSlide>
@@ -70,7 +70,7 @@ function DetailMovie() {
     const rating = (x) => Number.parseFloat(x).toFixed(1);
     const loadingCast = [];
     for (let i = 1; i <= 4; i++) {
-        loadingCast.push(Loading());
+        loadingCast.push(Loading(i));
     }
 
     return (
@@ -92,7 +92,7 @@ function DetailMovie() {
                                 {!!data.genres &&
                                     data.genres.length > 0 &&
                                     data.genres.map((item, index) => (
-                                        <span className="text-white xl:text-lg sm:text-base text-sm inline-block" key={item.id}>
+                                        <span className="text-white xl:text-lg sm:text-base text-sm inline-block" key={index}>
                                             {item}
                                             {data.genres.length !== index + 1 && <span key={item.id} className="mr-2">,</span>}
                                         </span>
@@ -148,7 +148,7 @@ function DetailMovie() {
                         {data.casts &&
                             data.casts.length > 0 && data.casts.map((i, index) => (
                                 <SwiperSlide key={i.id}>
-                                    <div className="cast-profile" key={i.id}>
+                                    <div className="cast-profile">
                                         <img className="w-full mb-3 rounded-xl" alt={i.name} src={i.profile_path ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
                                         <h4 className="font-bold text-lg mb-1">
                                             {i.name}
@@ -232,7 +232,7 @@ function DetailMovie() {
                                         <span className="leading-none">{rating(i ? i.rating : '')} / 10</span>
                                     </p>
                                     <p className="text-base mb-3 text-gray-500">{i.content}</p>
-                                    <p className="text-sm m-0 text-gray-500">{moment(i.createdAt).format('d MMM Y')}</p>
+                                    <p className="text-sm m-0 text-gray-500">{moment(i.createdAt).format('D MMM Y')}</p>
                                 </div>
                             </SwiperSlide>
                         ))}

@@ -50,6 +50,7 @@ function Register(props) {
     return (
         <>
             <Modal
+                forceRender
                 title="Create Account"
                 visible={isModalVisible}
                 onCancel={handleCancel}

@@ -22,9 +22,9 @@ import {
 import Hero from "../components/Hero";
 import MovieCard from "../components/MovieCard";
 
-function Loading() {
+function Loading(i) {
     return (
-        <SwiperSlide className="skeleton-movie">
+        <SwiperSlide className="skeleton-movie" key={i}>
             <Skeleton.Avatar active size="large" shape="square" />
             <Skeleton active style={{ marginBottom: "50px" }}></Skeleton>
         </SwiperSlide>
@@ -46,7 +46,7 @@ function Home() {
 
     const LoadingMovie = [];
     for (let i = 1; i <= 4; i++) {
-        LoadingMovie.push(Loading());
+        LoadingMovie.push(Loading(i));
     }
 
     return (
@@ -92,7 +92,7 @@ function Home() {
                     {dataPopular &&
                         dataPopular.length > 0 &&
                         dataPopular.map((i, index) => (
-                            <SwiperSlide>
+                            <SwiperSlide key={i._id}>
                                 <MovieCard
                                     id={i._id}
                                     poster={i.poster}
@@ -142,10 +142,9 @@ function Home() {
                         {dataGenres &&
                             dataGenres.length > 0 &&
                             dataGenres.map((i, index) => (
-                                <SwiperSlide>
+                                <SwiperSlide key={index}>
                                     <Link to={`/genre/${i}`}>
                                         <Button
-                                            key={index}
                                             className="w-full capitalize rounded-full"
                                             type="primary"
                                             size="large"
@@ -181,8 +180,8 @@ function Home() {
                 >
                     {loading && LoadingMovie}
                     {data.length > 0 &&
-                        data.map((i, index) => (
-                            <SwiperSlide>
+                        data.map((i) => (
+                            <SwiperSlide key={i._id}>
                                 <MovieCard
                                     id={i._id}
                                     poster={i.poster}
