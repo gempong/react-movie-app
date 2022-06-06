@@ -76,7 +76,7 @@ function DetailMovie() {
             transition={{ delay: 0.7 }}
             variants={pageVariants}
         >
-            <section style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w500${data ? data.poster : ''}')` }} className={`hero-content pt-24 bg-no-repeat bg-cover flex items-center`}>
+            <section style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w500${data.poster !== null ? data.poster : ''}')` }} className={`hero-content pt-24 bg-no-repeat bg-cover flex items-center`}>
                 <div className="container mx-auto xl:px-0 px-4 py-24">
                     <Row>
                         <Col lg={{ span: 12 }} xs={{ span: 24 }}>
@@ -98,7 +98,7 @@ function DetailMovie() {
                             </p>
                             <p className="font-normal xl:text-lg sm:text-base text-sm text-white mb-7 flex items-center">
                                 <StarOutlined className="mr-2 xl:text-lg sm:text-base text-sm text-yellow-500 leading-none" />{" "}
-                                <span className="leading-none">{rating(data ? data.rating : '')} / 10</span>
+                                <span className="leading-none">{rating(data ? data.rating : '')} / 5</span>
                             </p>
                             <Button
                                 className="flex items-center uppercase font-semibold leading-1 px-5 rounded-full"
@@ -146,7 +146,7 @@ function DetailMovie() {
                         {!loading && !!data & !!data.casts && data.casts.length > 0 && data.casts.map((i) => (
                             <SwiperSlide key={i.id}>
                                 <div className="cast-profile">
-                                    <img className="w-full mb-3 rounded-xl" alt={i.name} src={i.profile_path ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
+                                    <img className="w-full mb-3 rounded-xl" alt={i.name} src={i.profile_path !== null ? `https://image.tmdb.org/t/p/w500${i.profile_path}` : 'https://picsum.photos/id/11/283/424'} />
                                     <h4 className="font-bold text-lg mb-1">
                                         {i.name}
                                     </h4>
@@ -210,9 +210,9 @@ function DetailMovie() {
                                             <EllipsisOutlined className="absolute right-7 top-6 text-lg" />
                                         </Dropdown>
                                     )}
-                                    {i.reviewer !== null && (
+                                    {!!i.reviewer && i.reviewer !== null && (
                                         <div className="flex items-center mb-5">
-                                            <Avatar src={i.reviewer ? i.reviewer.image : `https://ui-avatars.com/api/?name=${i.reviewer.first_name + ' ' + i.reviewer.last_name}`} />
+                                            <Avatar src={i.reviewer.image !== null ? i.reviewer.image : `https://ui-avatars.com/api/?name=${i.reviewer.first_name + ' ' + i.reviewer.last_name}`} />
                                             <span className="ml-3 capitalize text-base">{i.reviewer.first_name + ' ' + i.reviewer.last_name}</span>
                                         </div>
                                     )}
@@ -227,7 +227,7 @@ function DetailMovie() {
                                     </h4>
                                     <p className="font-normal mb-3 flex items-center">
                                         <StarOutlined className="mr-2 text-yellow-500 leading-none" />{" "}
-                                        <span className="leading-none">{rating(i ? i.rating : '')} / 10</span>
+                                        <span className="leading-none">{rating(i ? i.rating : '')} / 5</span>
                                     </p>
                                     <p className="text-base mb-3 text-gray-500">{i.content}</p>
                                     <p className="text-sm m-0 text-gray-500">{moment(i.createdAt).format('D MMM Y')}</p>

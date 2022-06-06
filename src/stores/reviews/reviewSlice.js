@@ -21,19 +21,25 @@ export const fetchReviews = createAsyncThunk(
 export const postReviews = createAsyncThunk(
     "reviews/postReviews",
     async ({ id, values, token }, { rejectWithValue }) => {
-        if (token) {
-            try {
+        try {
+            if (token) {
                 const response = await axios.post(`${API_URL}reviews/${id}/create`, values, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 return response.data;
-            } catch (err) {
-                if (!err.response) {
-                    throw err;
-                }
-                console.log(err);
-                return rejectWithValue(err.response.data);
+            } else {
+                const data = [{
+                    error: 'Token Not Found',
+                    message: 'Token Not Found'
+                }]
+                return rejectWithValue(...data);
             }
+        } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+            console.log(err);
+            return rejectWithValue(err.response.data);
         }
     }
 );
@@ -41,19 +47,25 @@ export const postReviews = createAsyncThunk(
 export const editReviews = createAsyncThunk(
     "reviews/editReviews",
     async ({ id, values, token }, { rejectWithValue }) => {
-        if (token) {
-            try {
+        try {
+            if (token) {
                 const response = await axios.put(`${API_URL}reviews/update/${id}`, values, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 return response.data;
-            } catch (err) {
-                if (!err.response) {
-                    throw err;
-                }
-                console.log(err);
-                return rejectWithValue(err.response.data);
+            } else {
+                const data = [{
+                    error: 'Token Not Found',
+                    message: 'Token Not Found'
+                }]
+                return rejectWithValue(...data);
             }
+        } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+            console.log(err);
+            return rejectWithValue(err.response.data);
         }
     }
 );
@@ -61,19 +73,26 @@ export const editReviews = createAsyncThunk(
 export const deleteReviews = createAsyncThunk(
     "reviews/deleteReviews",
     async ({ MovieId, token }, { rejectWithValue }) => {
-        if (token) {
-            try {
+        try {
+            if (token) {
                 const response = await axios.delete(`${API_URL}reviews/delete/${MovieId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 return response.data;
-            } catch (err) {
-                if (!err.response) {
-                    throw err;
-                }
-                console.log(err);
-                return rejectWithValue(err.response.data);
+            } else {
+                const data = [{
+                    error: 'Token Not Found',
+                    message: 'Token Not Found'
+                }]
+                return rejectWithValue(...data);
             }
+
+        } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+            console.log(err);
+            return rejectWithValue(err.response.data);
         }
     }
 );
@@ -129,7 +148,7 @@ export const reviewsSlice = createSlice({
         },
         [postReviews.rejected]: (state, action) => {
             state.post.loading = false;
-            state.post.error = action.error.message;
+            state.post.error = action.error.error;
             state.post.errorMessage = action.payload.message;
         },
 
@@ -143,7 +162,7 @@ export const reviewsSlice = createSlice({
         },
         [editReviews.rejected]: (state, action) => {
             state.post.loading = false;
-            state.post.error = action.error.message;
+            state.post.error = action.error.error;
             state.post.errorMessage = action.payload.message;
         },
 
@@ -157,7 +176,7 @@ export const reviewsSlice = createSlice({
         },
         [deleteReviews.rejected]: (state, action) => {
             state.delete.loading = false;
-            state.delete.error = action.error.message;
+            state.delete.error = action.error.error;
             state.delete.errorMessage = action.payload.message;
         },
     },

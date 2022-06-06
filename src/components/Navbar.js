@@ -16,7 +16,6 @@ function Navbar() {
     const history = useHistory();
     const [searchIsOpen, setSearchMobile] = useState(false);
     const [form] = Form.useForm();
-    const { token } = useSelector((state) => state.user.auth);
 
     const { data } = useSelector(
         (state) => state.user.user
@@ -27,8 +26,8 @@ function Navbar() {
     const loginEvents = { click: () => { } };
     const editProfileEvents = { click: () => { } };
 
-    const logOut = () => {
-        localStorage.removeItem("token");
+    const logOut = async () => {
+        await localStorage.removeItem("token");
         dispatch(reset())
     };
 
@@ -54,10 +53,11 @@ function Navbar() {
     }
 
     useEffect(() => {
-        if (token) {
-            dispatch(getUser(token));
+        const userToken = localStorage.getItem("token");
+        if (userToken) {
+            dispatch(getUser(userToken));
         }
-    }, [dispatch, token]);
+    }, [dispatch]);
 
     const menu = (
         <Menu onClick={handleClick} className="mt-3">

@@ -16,7 +16,7 @@ function MovieCard(props) {
           </h4>
           <p className="font-normal text-sm text-white mb-3 flex items-center">
             <StarOutlined className="mr-2 text-lg text-yellow-500 leading-none" />{" "}
-            <span className="leading-none">{rating(props.rating)} / 10</span>
+            <span className="leading-none">{rating(props.rating)} / 5</span>
           </p>
           <div className="genre">
           {!!props.genres &&

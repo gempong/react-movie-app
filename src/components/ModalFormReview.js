@@ -82,7 +82,7 @@ function FormReviews(props) {
                     autoComplete="off"
                 >
                     <Form.Item name="rating">
-                        <Rate className="text-2xl" count={10} />
+                        <Rate className="text-2xl" count={5} />
                     </Form.Item>
                     <Form.Item
                         name="title"

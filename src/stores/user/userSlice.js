@@ -46,32 +46,38 @@ export const register = createAsyncThunk(
 export const getUser = createAsyncThunk(
     "user/getUser",
     async (token, { rejectWithValue }) => {
-        if(token){
-            try {
+        try {
+            if (token) {
                 const response = await axios.get(`${API_URL}users/me`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 return response.data;
-            } catch (err) {
-                if (!err.response) {
-                    throw err;
-                }
-                return rejectWithValue(err.response.data);
+            } else {
+                const data = [{
+                    error: 'Token Not Found',
+                    message: 'Token Not Found'
+                }]
+                return rejectWithValue(...data);
             }
+        } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+            return rejectWithValue(err.response.data);
         }
     }
 );
 
 export const updateUser = createAsyncThunk(
     "user/updateUser",
-    async ({token, values}, { rejectWithValue }) => {
-        if(token){
-            try {
+    async ({ token, values }, { rejectWithValue }) => {
+        try {
+            if (token) {
                 let bodyFormData = new FormData();
                 bodyFormData.append('first_name', values.first_name);
                 bodyFormData.append('last_name', values.last_name);
                 bodyFormData.append('email', values.email);
-                if(values.image !== undefined){
+                if (values.image !== undefined) {
                     bodyFormData.append('image', values.image[0].originFileObj);
                 }
                 const response = await axios({
@@ -81,12 +87,18 @@ export const updateUser = createAsyncThunk(
                     headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
                 })
                 return response;
-            } catch (err) {
-                if (!err.response) {
-                    throw err;
-                }
-                return rejectWithValue(err.response.data);
+            } else {
+                const data = [{
+                    error: 'Token Not Found',
+                    message: 'Token Not Found'
+                }]
+                return rejectWithValue(...data);
             }
+        } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+            return rejectWithValue(err.response.data);
         }
     }
 );
@@ -141,7 +153,7 @@ export const userSlice = createSlice({
         },
         [auth.rejected]: (state, action) => {
             state.auth.success = false;
-            state.auth.error = action.error.message;
+            state.auth.error = action.error.error;
             state.auth.errorMessage = action.payload.message
             state.auth.loading = false;
         },
@@ -160,7 +172,7 @@ export const userSlice = createSlice({
             state.register.success = true;
         },
         [register.rejected]: (state, action) => {
-            state.register.error = action.error.message;
+            state.register.error = action.error.error;
             state.register.errorMessage = action.payload.message
             state.register.loading = false;
             state.register.success = false;
@@ -176,7 +188,7 @@ export const userSlice = createSlice({
             state.user.loading = false;
         },
         [getUser.rejected]: (state, action) => {
-            state.user.error = action.error.message;
+            state.user.error = action.error.error;
             state.user.errorMessage = action.payload.message
             state.user.loading = false;
         },
@@ -193,7 +205,7 @@ export const userSlice = createSlice({
         },
         [updateUser.rejected]: (state, action) => {
             state.update.success = false;
-            state.update.error = action.error.message;
+            state.update.error = action.error.error;
             state.update.errorMessage = action.payload.message
             state.update.loading = false;
         },
