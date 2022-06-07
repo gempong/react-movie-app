@@ -23,7 +23,9 @@ function Register(props) {
 
     const onFinish = async (values) => {
         await dispatch(register(values))
-        message.success('Your registration successful');
+        if(success){
+            message.success('Your registration successful');
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -56,7 +58,7 @@ function Register(props) {
                 onCancel={handleCancel}
                 footer={null}
             >
-                {error && <Alert message={errorMessage} type="error" />}
+                {error && <Alert message={errorMessage} className="mb-6" type="error" />}
                 <Form
                     form={form}
                     name="register"
