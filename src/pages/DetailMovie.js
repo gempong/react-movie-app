@@ -77,7 +77,7 @@ function DetailMovie() {
             variants={pageVariants}
         >
             <section style={{ backgroundImage: `url('https://image.tmdb.org/t/p/w500${data.poster !== null ? data.poster : ''}')` }} className={`hero-content pt-24 bg-no-repeat bg-cover flex items-center`}>
-                <div className="container mx-auto xl:px-0 px-4 py-24">
+                <div className="container 2xl:px-14mx-auto xl:px-0 px-4 py-24">
                     <Row>
                         <Col lg={{ span: 12 }} xs={{ span: 24 }}>
                             <h1 className="text-white xl:text-6xl sm:text-5xl text-3xl font-semibold leading-tight mb-5">
@@ -114,7 +114,7 @@ function DetailMovie() {
                 </div>
             </section>
             <section className="xl:pt-28 pt-10">
-                <div className="container mx-auto xl:px-0 px-4">
+                <div className="container 2xl:px-14mx-auto xl:px-0 px-4">
                     <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-8 mb-5">
                         Cast and Crew Info
                     </h2>
@@ -158,7 +158,7 @@ function DetailMovie() {
                 </div>
             </section>
             <section className="xl:py-28 py-10">
-                <div className="container mx-auto xl:px-0 px-4">
+                <div className="container 2xl:px-14mx-auto xl:px-0 px-4">
                     <div className="flex xl:items-center xl:flex-row flex-col justify-between xl:mb-8 mb-5">
                         <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-0 mb-5">
                             What People Says

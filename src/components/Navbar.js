@@ -76,7 +76,7 @@ function Navbar() {
     return (
         <header className="relative">
             <div className="navbar py-5 absolute z-10 w-full">
-                <div className="container mx-auto xl:px-0 px-4">
+                <div className="container 2xl:px-14mx-auto xl:px-0 px-4">
                     <Row className="items-center justify-between">
                         <Col span={8}>
                             <Link to="/">

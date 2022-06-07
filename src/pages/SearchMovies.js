@@ -53,7 +53,7 @@ function SearchMovies() {
             variants={pageVariants}
         >
             <HeroInternal pageTitle={`All Movies "${search}"`} />
-            <div className="container mx-auto xl:px-0 px-4 xl:py-32 py-10">
+            <div className="container 2xl:px-14mx-auto xl:px-0 px-4 xl:py-32 py-10">
                 <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight xl:mb-14 mb-8">
                     Search Result "{search}"
                 </h2>

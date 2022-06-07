@@ -58,7 +58,7 @@ function Home() {
             variants={pageVariants}
         >
             <Hero />
-            <div className="container mx-auto xl:px-0 px-4 xl:pt-32 pt-10">
+            <div className="container 2xl:px-14mx-auto xl:px-0 px-4 xl:pt-32 pt-10">
                 <div className="flex xl:items-center xl:flex-row flex-col justify-between xl:mb-14 mb-10">
                     <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight">
                         Popular Movie
@@ -104,7 +104,7 @@ function Home() {
                         ))}
                 </Swiper>
             </div>
-            <div className="container mx-auto xl:px-0 px-4 xl:py-32 py-10">
+            <div className="container 2xl:px-14mx-auto xl:px-0 px-4 xl:py-32 py-10">
                 <div className="flex xl:items-center xl:flex-row flex-col justify-between xl:mb-14 mb-5">
                     <h2 className="xl:text-4xl sm:text-3xl text-2xl font-semibold leading-tight">
                         Browse by Category
