@@ -91,7 +91,7 @@ function Register(props) {
                     </Form.Item>
                     <Form.Item
                         name="email"
-                        rules={[{ required: true, message: "Please input your email!" }]}
+                        rules={[{ required: true, type: "email", message: "Please input your email!" }]}
                     >
                         <Input
                             className="rounded-full px-5"
