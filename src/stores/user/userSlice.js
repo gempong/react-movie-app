@@ -153,7 +153,7 @@ export const userSlice = createSlice({
         },
         [auth.rejected]: (state, action) => {
             state.auth.success = false;
-            state.auth.error = action.error.error;
+            state.auth.error = action.error.message;
             state.auth.errorMessage = action.payload.message
             state.auth.loading = false;
         },
@@ -172,7 +172,7 @@ export const userSlice = createSlice({
             state.register.success = true;
         },
         [register.rejected]: (state, action) => {
-            state.register.error = action.error.error;
+            state.register.error = action.error.message;
             state.register.errorMessage = action.payload.message
             state.register.loading = false;
             state.register.success = false;
@@ -188,7 +188,7 @@ export const userSlice = createSlice({
             state.user.loading = false;
         },
         [getUser.rejected]: (state, action) => {
-            state.user.error = action.error.error;
+            state.user.error = action.error.message;
             state.user.errorMessage = action.payload.message
             state.user.loading = false;
         },
@@ -205,7 +205,7 @@ export const userSlice = createSlice({
         },
         [updateUser.rejected]: (state, action) => {
             state.update.success = false;
-            state.update.error = action.error.error;
+            state.update.error = action.error.message;
             state.update.errorMessage = action.payload.message
             state.update.loading = false;
         },

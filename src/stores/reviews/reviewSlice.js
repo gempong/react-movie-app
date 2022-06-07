@@ -148,7 +148,7 @@ export const reviewsSlice = createSlice({
         },
         [postReviews.rejected]: (state, action) => {
             state.post.loading = false;
-            state.post.error = action.error.error;
+            state.post.error = action.error.message;
             state.post.errorMessage = action.payload.message;
         },
 
@@ -162,7 +162,7 @@ export const reviewsSlice = createSlice({
         },
         [editReviews.rejected]: (state, action) => {
             state.post.loading = false;
-            state.post.error = action.error.error;
+            state.post.error = action.error.message;
             state.post.errorMessage = action.payload.message;
         },
 
@@ -176,7 +176,7 @@ export const reviewsSlice = createSlice({
         },
         [deleteReviews.rejected]: (state, action) => {
             state.delete.loading = false;
-            state.delete.error = action.error.error;
+            state.delete.error = action.error.message;
             state.delete.errorMessage = action.payload.message;
         },
     },

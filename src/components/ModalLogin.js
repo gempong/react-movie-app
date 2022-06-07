@@ -24,8 +24,10 @@ function Login(props) {
     const onFinish = async (values) => {
         await dispatch(auth(values));
         await dispatch(getUser(token));
-        setIsModalVisible(false);
-        form.resetFields()
+        if(success){
+            setIsModalVisible(false);
+            form.resetFields()
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
